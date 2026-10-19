@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/attamveer/module-2-assignment/issues"
   },
-  "homepage": "https://github.com/attamveer/module-2-assignment#readme"
+  "homepage": "https://github.com/attamveer/module-2-assignment#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
 }
