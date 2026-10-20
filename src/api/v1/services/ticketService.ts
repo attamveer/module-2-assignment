@@ -1,6 +1,8 @@
 import { Ticket } from "../models/ticketModel";
 import { tickets } from "../../../data/tickets";
 
+const AGE_MULTIPLIER: number = 5;
+
 /**
  * Retrieves all support tickets.
  */
@@ -77,4 +79,42 @@ export const deleteTicket = (id: number): boolean => {
     tickets.splice(index, 1);
 
     return true;
+};
+
+/**
+ * Calculates the urgency score based on ticket priority and age.
+ */
+export const calculateUrgencyScore = (
+    ticket: Ticket
+): { ticketAge: number; urgencyScore: number } => {
+
+    // Calculate ticket age in days
+    const currentDate: Date = new Date();
+    const createdDate: Date = new Date(ticket.createdAt);
+
+    const millisecondsPerDay: number = 1000 * 60 * 60 * 24;
+
+    const ticketAge: number = Math.floor(
+        (currentDate.getTime() - createdDate.getTime()) / millisecondsPerDay
+    );
+
+    // Determine base urgency score
+    let baseScore: number = 10;
+
+    if (ticket.priority === "critical") {
+        baseScore = 50;
+    } else if (ticket.priority === "high") {
+        baseScore = 30;
+    } else if (ticket.priority === "medium") {
+        baseScore = 20;
+    }
+
+    // Calculate final urgency score
+    const urgencyScore: number =
+        baseScore + (ticketAge * AGE_MULTIPLIER);
+
+    return {
+        ticketAge,
+        urgencyScore,
+    };
 };
