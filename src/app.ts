@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
 import { HTTP_STATUS } from "./constants/httpConstants";
+import ticketRoutes from "./api/v1/routes/ticketRoutes";
 
 const app: Express = express();
 
@@ -17,5 +18,8 @@ app.get("/api/v1/health", (_req: Request, res: Response): void => {
         version: "1.0.0",
     });
 });
+
+// Ticket routes
+app.use("/api/v1", ticketRoutes);
 
 export default app;
