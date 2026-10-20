@@ -10,3 +10,14 @@ export interface Ticket {
     status: TicketStatus;
     createdAt: string;
 }
+
+export interface TicketUrgencyData {
+    id: number;
+    title: string;
+    priority: TicketPriority;
+    status: TicketStatus;
+    createdAt: string;
+    ticketAge: number;
+    urgencyScore: number;
+    urgencyLevel: string;
+}
