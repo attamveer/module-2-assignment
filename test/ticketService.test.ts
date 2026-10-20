@@ -72,4 +72,27 @@ describe("Ticket Urgency Service", (): void => {
         expect(result.urgencyScore).toBe(80);
     });
 
+    it("should return zero urgency for a resolved ticket", (): void => {
+        // Arrange
+        const createdAt: string = new Date(
+            Date.now() - (10 * 24 * 60 * 60 * 1000)
+        ).toISOString();
+
+        const ticket: Ticket = {
+            id: 7,
+            title: "Dark mode toggle broken",
+            description: "Dark mode doesn't persist after refresh",
+            priority: "medium",
+            status: "resolved",
+            createdAt,
+        };
+
+        // Act
+        const result = calculateUrgencyScore(ticket);
+
+        // Assert
+        expect(result.ticketAge).toBe(10);
+        expect(result.urgencyScore).toBe(0);
+    });
+
 });

@@ -147,3 +147,25 @@ describe("DELETE /api/v1/tickets/:id", (): void => {
     });
 
 });
+
+describe("GET /api/v1/tickets/:id/urgency", (): void => {
+
+    it("should return minimal urgency for a resolved ticket", async (): Promise<void> => {
+        // Arrange
+        const endpoint: string = "/api/v1/tickets/7/urgency";
+
+        // Act
+        const response: Response = await request(app).get(endpoint);
+
+        // Assert
+        expect(response.status).toBe(HTTP_STATUS.OK);
+        expect(response.body.message).toBe("Ticket urgency calculated");
+        expect(response.body.data.id).toBe(7);
+        expect(response.body.data.urgencyScore).toBe(0);
+        expect(response.body.data.urgencyLevel).toBe(
+            "Minimal. Ticket resolved."
+        );
+        expect(response.body.data).not.toHaveProperty("description");
+    });
+
+});
