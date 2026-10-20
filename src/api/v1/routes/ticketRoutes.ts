@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
     getAllTickets,
     getTicketById,
+    getTicketUrgency,
     createTicket,
     updateTicket,
     deleteTicket,
@@ -11,6 +12,8 @@ import {
 const router: Router = Router();
 
 router.get("/tickets", getAllTickets);
+
+router.get("/tickets/:id/urgency", getTicketUrgency);
 
 router.get("/tickets/:id", getTicketById);
 
