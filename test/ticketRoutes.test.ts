@@ -1,6 +1,7 @@
 import request, { Response } from "supertest";
 import app from "../src/app";
 import { HTTP_STATUS } from "../src/constants/httpConstants";
+import { Ticket } from "../src/api/v1/models/ticketModel";
 
 describe("Ticket GET Routes", (): void => {
 
@@ -56,7 +57,7 @@ describe("POST /api/v1/tickets", (): void => {
 
     it("should create a new ticket", async (): Promise<void> => {
         // Arrange
-        const newTicket = {
+        const newTicket: Pick<Ticket, "title" | "description" | "priority"> = {
             title: "Test support ticket",
             description: "Testing ticket creation",
             priority: "high",
@@ -77,7 +78,7 @@ describe("POST /api/v1/tickets", (): void => {
 
     it("should reject a ticket without a title", async (): Promise<void> => {
         // Arrange
-        const invalidTicket = {
+        const invalidTicket: Pick<Ticket, "description" | "priority"> = {
             description: "Missing title",
             priority: "medium",
         };
@@ -98,7 +99,7 @@ describe("PUT /api/v1/tickets/:id", (): void => {
 
     it("should reject an invalid ticket status", async (): Promise<void> => {
         // Arrange
-        const invalidUpdate = {
+        const invalidUpdate: { status: string } = {
             status: "closed",
         };
 
@@ -120,7 +121,7 @@ describe("DELETE /api/v1/tickets/:id", (): void => {
 
     it("should delete an existing ticket", async (): Promise<void> => {
         // Arrange
-        const newTicket = {
+        const newTicket: Pick<Ticket, "title" | "description" | "priority"> = {
             title: "Ticket to delete",
             description: "Testing ticket deletion",
             priority: "low",

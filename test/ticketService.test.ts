@@ -19,7 +19,7 @@ describe("Ticket Urgency Service", (): void => {
         };
 
         // Act
-        const result = calculateUrgencyScore(ticket);
+        const result: { ticketAge: number; urgencyScore: number } = calculateUrgencyScore(ticket);
 
         // Assert
         expect(result.ticketAge).toBe(3);
@@ -42,7 +42,7 @@ describe("Ticket Urgency Service", (): void => {
         };
 
         // Act
-        const result = calculateUrgencyScore(ticket);
+        const result: { ticketAge: number; urgencyScore: number } = calculateUrgencyScore(ticket);
 
         // Assert
         expect(result.ticketAge).toBe(6);
@@ -65,7 +65,7 @@ describe("Ticket Urgency Service", (): void => {
         };
 
         // Act
-        const result = calculateUrgencyScore(ticket);
+        const result: { ticketAge: number; urgencyScore: number } = calculateUrgencyScore(ticket);
 
         // Assert
         expect(result.ticketAge).toBe(6);
@@ -88,7 +88,7 @@ describe("Ticket Urgency Service", (): void => {
         };
 
         // Act
-        const result = calculateUrgencyScore(ticket);
+        const result: { ticketAge: number; urgencyScore: number } = calculateUrgencyScore(ticket);
 
         // Assert
         expect(result.ticketAge).toBe(10);
