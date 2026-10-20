@@ -19,8 +19,7 @@ jobs:
 
             # Step 3: Install ESLint for development
             - name: Install ESLint for development
-              run: npm install --save-dev eslint @eslint/js @types/eslint__js typescript typescript-eslint
-
+              run: npm ci
             # Step 4: Run ESLint with Reviewdog
             - name: Run ESLint with Reviewdog
               uses: reviewdog/action-eslint@v1
