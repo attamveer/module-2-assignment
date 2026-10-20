@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { Ticket, TicketPriority, TicketStatus, } from "../models/ticketModel";
+import { Ticket, TicketPriority, TicketStatus, TicketUrgencyData, } from "../models/ticketModel";
 import * as ticketService from "../services/ticketService";
 
 const isTicketPriority = (value: unknown): value is TicketPriority => {
@@ -181,5 +181,29 @@ export const deleteTicket = (req: Request, res: Response): void => {
 
     res.status(HTTP_STATUS.OK).json({
         message: "Ticket deleted",
+    });
+};
+
+/**
+ * Retrieves a ticket with its calculated urgency.
+ */
+export const getTicketUrgency = (req: Request, res: Response): void => {
+
+    const id: number = Number(req.params.id);
+
+    const urgencyData: TicketUrgencyData | undefined =
+        ticketService.getTicketUrgencyById(id);
+
+    if (!urgencyData) {
+        res.status(HTTP_STATUS.NOT_FOUND).json({
+            message: "Ticket not found",
+        });
+
+        return;
+    }
+
+    res.status(HTTP_STATUS.OK).json({
+        message: "Ticket urgency calculated",
+        data: urgencyData,
     });
 };
