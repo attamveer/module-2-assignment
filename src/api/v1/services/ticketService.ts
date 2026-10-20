@@ -111,7 +111,9 @@ export const calculateUrgencyScore = (
 
     // Calculate final urgency score
     const urgencyScore: number =
-        baseScore + (ticketAge * AGE_MULTIPLIER);
+        ticket.status === "resolved"
+            ? 0
+            : baseScore + (ticketAge * AGE_MULTIPLIER);
 
     return {
         ticketAge,
