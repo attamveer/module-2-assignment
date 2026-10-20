@@ -1,4 +1,7 @@
-import { Ticket } from "../models/ticketModel";
+import {
+    Ticket,
+    TicketUrgencyData,
+} from "../models/ticketModel";
 import { tickets } from "../../../data/tickets";
 
 const AGE_MULTIPLIER: number = 5;
@@ -119,4 +122,68 @@ export const calculateUrgencyScore = (
         ticketAge,
         urgencyScore,
     };
+};
+
+/**
+ * Determines the urgency level based on score and ticket status.
+ */
+export const calculateUrgencyLevel = (
+    urgencyScore: number,
+    status: Ticket["status"]
+): string => {
+
+    if (status === "resolved") {
+        return "Minimal. Ticket resolved.";
+    }
+
+    if (urgencyScore >= 80) {
+        return "Critical. Immediate attention required.";
+    }
+
+    if (urgencyScore >= 55) {
+        return "High urgency. Prioritize resolution.";
+    }
+
+    if (urgencyScore >= 30) {
+        return "Moderate. Schedule for attention.";
+    }
+
+    return "Low urgency. Address when capacity allows.";
+};
+
+/**
+ * Retrieves a ticket with its calculated urgency information.
+ */
+export const getTicketUrgencyById = (
+    id: number
+): TicketUrgencyData | undefined => {
+
+    const ticket: Ticket | undefined = getTicketById(id);
+
+    if (!ticket) {
+        return undefined;
+    }
+
+    const urgency: {
+        ticketAge: number;
+        urgencyScore: number;
+    } = calculateUrgencyScore(ticket);
+
+    const urgencyLevel: string = calculateUrgencyLevel(
+        urgency.urgencyScore,
+        ticket.status
+    );
+
+    const result: TicketUrgencyData = {
+        id: ticket.id,
+        title: ticket.title,
+        priority: ticket.priority,
+        status: ticket.status,
+        createdAt: ticket.createdAt,
+        ticketAge: urgency.ticketAge,
+        urgencyScore: urgency.urgencyScore,
+        urgencyLevel: urgencyLevel,
+    };
+
+    return result;
 };
